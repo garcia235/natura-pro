@@ -38,26 +38,45 @@ export default function ContactSection() {
     setIsSubmitting(true);
     try {
       const response = await apiRequest("POST", "/api/contact", data);
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Something went wrong.");
+      }
+  
       const result = await response.json();
-
+  
       toast({
         title: "Success!",
         description: result.message,
         duration: 5000,
       });
-
+  
       reset();
     } catch (error) {
+      let errorMessage = "Something went wrong. Please try again.";
+  
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (error instanceof Response) {
+        try {
+          const errorData = await error.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          errorMessage = "Failed to parse error response.";
+        }
+      }
+  
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive",
         duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
     }
-  };
+  };  
 
   return (
     <section id="contact" className="py-16 bg-[#F8F0FA] bg-opacity-30 relative">
