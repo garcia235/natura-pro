@@ -1,28 +1,67 @@
+const imagens = import.meta.glob('../assets/*.jpg', { eager: true });
+
+function getImage(nomeArquivo: string) {
+  const path = `../assets/${nomeArquivo}`;
+  return (imagens[path] as { default: string })?.default;
+}
+
 // Categorias
 export const categories = [
   {
     id: 1,
-    name: "Fragrâncias",
-    description: "Aromas cativantes criados a partir da biodiversidade brasileira",
-    image: "https://plus.unsplash.com/premium_photo-1678449464118-75786d816fac?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "Presentes",
+    description: "Presentes especiais para ocasiões especiais",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dw2c6dc9db/ciclo202506Nat/00-home/03-categorias/banner-home-presentes-dia-das-ma%CC%83es-desk-02.jpg",
+    link: "anchor-presentes"
   },
   {
     id: 2,
-    name: "Cuidados com a Pele",
-    description: "Fórmulas nutritivas com ativos naturais potentes",
-    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    name: "Perfumaria",
+    description: "A perfumaria Natura é um convite para expressar todo amor e agradecer quem sempre esteve ao seu lado",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dw0a21fda3/ciclo202506Nat/00-home/03-categorias/banner-home-perfumaria-aura-desk-01.jpg",
+    link: "anchor-perfumaria"
   },
   {
     id: 3,
     name: "Maquiagem",
-    description: "Cosméticos ricos em cor para uma autoexpressão radiante",
-    image: "https://images.unsplash.com/photo-1599733594230-6b823276abcc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    description: "Para elevar a autoestima da sua mãe com presentes que valorizam o que ela tem de mais bonito",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dwcfc5536b/ciclo202506Nat/00-home/03-categorias/banner-home-maquiagem-dia-das-maes-desk-02.jpg",
+    link: "anchor-maquiagem"
   },
   {
     id: 4,
-    name: "Cuidados Corporais",
-    description: "Fórmulas luxuosas que despertam os sentidos",
-    image: "https://plus.unsplash.com/premium_photo-1679046947907-9f99734a2ad3?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    name: "Rosto",
+    description: "Produtos que cuidam da pele, seja qual for a idade",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dw97cac9fd/ciclo202506Nat/00-home/03-categorias/banner-home-rosto-desk-01.jpg",
+    link: "anchor-rosto"
+  },
+  {
+    id: 5,
+    name: "Cabelos",
+    description: "Natura Tododia: fragrâncias deliciosas e Tecnologia Prebiótica para cuidar dos seus fios",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dw1a47dfd3/ciclo202506Nat/00-home/03-categorias/banner-home-cabelos-tododia-desk-01.jpg",
+    link: "anchor-cabelos"
+  },
+  {
+    id: 6,
+    name: "Corpo e banho",
+    description: "Reconhecer o papel de uma mãe é estimular o autocuidado",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dwc83dc618/ciclo202506Nat/00-home/03-categorias/banner-home-cuidados-diarios-dia%20das%20maes-desk-02.jpg",
+    link: "anchor-corpoebanho"
+  },
+  {
+    id: 7,
+    name: "Infantil",
+    description: "de Mamãe para Bebê a Naturé, tudo para o cuidado dos pequenos",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dwfd0c76ed/ciclo202506Nat/00-home/03-categorias/banner-home-infantil-desk-01.jpg",
+    link: "anchor-infantil"
+  },
+  {
+    id: 8,
+    name: "Crer Para Ver",
+    description: "ao comprar produtos da linha Crer Para Ver, você ajuda a transformar vidas através da educação",
+    image: "https://production.na01.natura.com/on/demandware.static/-/Sites-CBBrazil-Library/default/dw2c6dc9db/ciclo202506Nat/00-home/03-categorias/banner-home-crer-para-ver-desk-01.jpg",
+    link: "anchor-crerparaver"
   }
 ];
 
@@ -30,30 +69,30 @@ export const categories = [
 export const featuredProducts = [
   {
     id: 1,
-    name: "Óleo Capilar Ekos Patauá",
-    description: "Tratamento nutritivo para cabelos secos e danificados com óleo de patauá da Amazônia",
+    name: "Óleo em creme ultranutritivo",
+    description: "Tratamento nutritivo para pele, auxiliando na redução de estrias",
     price: "29.90",
-    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: getImage("oleo-creme.jpg"),
     rating: 4.8,
     reviewCount: 120,
     isNew: false
   },
   {
     id: 2,
-    name: "Creme Facial Chronos 70+",
-    description: "Fórmula avançada antissinais com extrato concentrado de jambú",
+    name: "Aura Alba",
+    description: "Perfume floral, elegante, moderno e fresco, com notas de jasmim e rosa",
     price: "42.50",
-    image: "https://images.unsplash.com/photo-1666028095907-15814bd435cd?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: getImage("aura-alba.jpg"),
     rating: 5.0,
     reviewCount: 87,
     isNew: true
   },
   {
     id: 3,
-    name: "Perfume Homem Essence",
+    name: "Perfume Kaiak Classic",
     description: "Fragrância masculina ousada e sofisticada com notas amadeiradas",
     price: "64.90",
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: getImage("perfume-kaiak.jpg"),
     rating: 4.9,
     reviewCount: 203,
     isNew: false

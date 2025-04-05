@@ -2,10 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "@/lib/motion";
 import { testimonials } from "@/lib/data";
+import { ImageLightbox } from "@/components/ui/image-lightbox";
+import { Search } from "lucide-react";
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
   const scrollToTestimonial = (index: number) => {
     if (sliderRef.current) {
@@ -19,6 +22,14 @@ export default function Testimonials() {
         setActiveIndex(index);
       }
     }
+  };
+
+  const openLightbox = (src: string, alt: string) => {
+    setSelectedImage({ src, alt });
+  };
+  
+  const closeLightbox = () => {
+    setSelectedImage(null);
   };
 
   // Handle scroll events to update active dot
@@ -97,16 +108,24 @@ export default function Testimonials() {
                     "{testimonial.comment}"
                   </p>
                   <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                    <div 
+                      className="w-12 h-12 rounded-full overflow-hidden mr-4 relative cursor-pointer group"
+                      onClick={() => openLightbox(testimonial.image, testimonial.name)}
+                    >
                       <img 
                         src={testimonial.image} 
-                        alt="Customer portrait" 
-                        className="w-full h-full object-cover"
+                        alt={testimonial.name} 
+                        className="w-full h-full object-cover transition-transform group-hover:scale-110"
                       />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-full">
+                        <div className="scale-0 group-hover:scale-100 transition-transform duration-200">
+                          <Search className="h-4 w-4 text-white" />
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <h4 className="font-bold">{testimonial.name}</h4>
-                      <p className="text-gray-600 text-sm">Cliente fiel há {testimonial.loyaltyYears} {testimonial.loyaltyYears === 1 ? 'year' : 'years'}</p>
+                      <p className="text-gray-600 text-sm">Loyal customer for {testimonial.loyaltyYears} {testimonial.loyaltyYears === 1 ? 'year' : 'years'}</p>
                     </div>
                   </div>
                 </div>
@@ -126,6 +145,16 @@ export default function Testimonials() {
           </div>
         </motion.div>
       </motion.div>
+
+      {/* Image Lightbox */}
+      {selectedImage && (
+        <ImageLightbox
+          src={selectedImage.src}
+          alt={selectedImage.alt}
+          isOpen={!!selectedImage}
+          onClose={closeLightbox}
+        />
+      )}
     </section>
   );
 }

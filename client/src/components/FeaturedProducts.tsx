@@ -1,10 +1,23 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fadeIn, staggerContainer } from "@/lib/motion";
 import { featuredProducts } from "@/lib/data";
+import { ImageLightbox } from "@/components/ui/image-lightbox";
 
 export default function FeaturedProducts() {
+
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  
+  const openLightbox = (src: string, alt: string) => {
+    setSelectedImage({ src, alt });
+  };
+  
+  const closeLightbox = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <section className="py-16 bg-[#F8F0FA] bg-opacity-30 relative">
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#FEF6ED] rounded-full opacity-30 -ml-40 -mb-40"></div>
@@ -33,14 +46,19 @@ export default function FeaturedProducts() {
               className="bg-white rounded-xl shadow-soft overflow-hidden group"
               variants={fadeIn('up', 'tween', 0.1 * index, 0.5)}
             >
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden cursor-pointer" onClick={() => openLightbox(product.image, product.name)}>
                 <img 
                   src={product.image} 
                   alt={product.name} 
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className={`absolute top-3 right-3 bg-${product.isNew ? '[#7EB86C]' : 'primary'} text-white text-xs font-bold px-3 py-1 rounded-full`}>
-                  {product.isNew ? 'Novo' : 'Mais vendido'}
+                  {product.isNew ? 'New' : 'Bestseller'}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300">
+                  <div className="bg-white p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300">
+                    <Search className="h-5 w-5 text-primary" />
+                  </div>
                 </div>
               </div>
               <div className="p-6">
@@ -64,7 +82,9 @@ export default function FeaturedProducts() {
                     {product.rating} ({product.reviewCount} avaliações)
                   </span>
                 </div>
-                <Button className="w-full text-center bg-primary hover:bg-opacity-90 text-white rounded-full font-medium transition-all transform hover:scale-105">
+
+                <Button className="w-full text-center bg-primary hover:bg-opacity-90 text-white rounded-full font-medium transition-all transform hover:scale-105" 
+                onClick={() => window.open(`https://minhaloja.natura.com/search?busca=${product.name}&consultoria=pinheirodany`, "_blank")}>
                   Compre agora
                 </Button>
               </div>
@@ -79,12 +99,24 @@ export default function FeaturedProducts() {
           <Button
             variant="outline"
             className="inline-flex items-center justify-center border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-6 rounded-full font-medium transition-colors"
+            onClick={() => window.open("https://minhaloja.natura.com/c/promocao-exclusiva?iprom_id=menu_promocoes&iprom_name=lista_produtos&iprom_creative=exclusivas_ciclo&iprom_pos=1&categoryId=promocao-exclusiva&consultoria=pinheirodany", "_blank")
+            }
           >
             <span>Veja todos os produtos</span>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </motion.div>
       </motion.div>
+
+      {/* Image Lightbox */}
+      {selectedImage && (
+        <ImageLightbox
+          src={selectedImage.src}
+          alt={selectedImage.alt}
+          isOpen={!!selectedImage}
+          onClose={closeLightbox}
+        />
+      )}
     </section>
   );
 }
