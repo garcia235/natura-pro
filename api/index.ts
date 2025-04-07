@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes.js";
-import { serveStatic, log } from "../server/vite";
+import { serveStatic, log } from "./vite.js";
 import serverless from "serverless-http";
 
 const app = express();

@@ -1,5 +1,5 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*", "api/index.ts", "api/routes.ts"],
+  "include": ["client/src/**/*", "shared/**/*", "server/**/*", "api/index.ts", "api/routes.ts", "api/storage.ts", "api/vite.ts"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "target": "es2017",
