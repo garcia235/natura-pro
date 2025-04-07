@@ -1,15 +1,15 @@
 {
     "version": 2,
+    "build": {
+      "env": {
+        "NPM_CONFIG_OPTIONAL": "true"
+      }
+    },
     "rewrites": [
       {
         "source": "/(.*)",
         "destination": "/api"
       }
-    ],
-    "build": {
-      "env": {
-        "NPM_CONFIG_OPTIONAL": "false"
-      }
-    }
+    ]
   }
   
