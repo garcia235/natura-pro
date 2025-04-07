@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx api/index.ts",
-    "build": "prisma generate && vite build && node build.mjs",
-    "start": "NEXT_PUBLIC_API_BASE_URL='https://natura-pro.vercel.app/' NODE_ENV=production node dist/index.js",
+    "build": "prisma generate && vite build && node build.mjs --external:pg --external:nanoid ./build.mjs",
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "postinstall": "prisma generate"
@@ -62,8 +61,10 @@
     "lightningcss": "^1.29.3",
     "lucide-react": "^0.453.0",
     "memorystore": "^1.6.7",
+    "nanoid": "^5.1.5",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.14.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
@@ -105,12 +106,10 @@
     "vite": "^5.4.14"
   },
   "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.39.0",
     "bufferutil": "^4.0.8"
   },
-  "browser": {
-    "@rollup/rollup-linux-x64-gnu": "./empty-rollup.js"
-  },
-  "alias": {
-    "@rollup/rollup-linux-x64-gnu": "./empty-rollup.js"
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node"
   }
 }

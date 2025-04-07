@@ -30,4 +30,8 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
+  esbuild: {
+    target: 'esnext',
+    platform: 'browser',
+  }
 });
