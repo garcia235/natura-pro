@@ -1,11 +1,14 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes.js";
-import { serveStatic, log } from "./vite.js";
+import { serveStatic, setupVite, log } from "./vite.js";
 import serverless from "serverless-http";
+import { createServer } from "http";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const server = createServer(app);
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -47,7 +50,16 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   throw err;
 });
 
-serveStatic(app);
+if (process.env.NODE_ENV === "production") {
+  serveStatic(app);
+} else {
+  await setupVite(app, server);
+}
+
+server.listen(3000, () => {
+  console.log("🚀 Server running at http://localhost:3000");
+});
+
 
 export default app;
 export const handler = serverless(app);
