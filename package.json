@@ -105,12 +105,10 @@
     "vite": "^5.4.14"
   },
   "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.39.0",
     "bufferutil": "^4.0.8"
   },
-  "browser": {
-    "@rollup/rollup-linux-x64-gnu": "./empty-rollup.js"
-  },
-  "alias": {
-    "@rollup/rollup-linux-x64-gnu": "./empty-rollup.js"
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node"
   }
 }

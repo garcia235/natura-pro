@@ -1,15 +1,15 @@
 {
     "version": 2,
-    "build": {
-      "env": {
-        "NPM_CONFIG_OPTIONAL": "false"
-      }
-    },
-    "rewrites": [
-      {
-        "source": "/(.*)",
-        "destination": "/api"
-      }
+    "builds": [
+        {
+            "src": "api/index.ts",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/index.ts"
+        }
     ]
-  }
-  
+}
