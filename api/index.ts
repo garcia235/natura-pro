@@ -56,10 +56,11 @@ if (process.env.NODE_ENV === "production") {
   await setupVite(app, server);
 }
 
-server.listen(3000, () => {
-  console.log("🚀 Server running at http://localhost:3000");
-});
-
+if (process.env.NODE_ENV !== "production") {
+  server.listen(3000, () => {
+    console.log("🚀 Server running at http://localhost:3000");
+  });
+}
 
 export default app;
 export const handler = serverless(app);
