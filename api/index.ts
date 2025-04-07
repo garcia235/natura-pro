@@ -49,5 +49,5 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 
 serveStatic(app);
 
-module.exports = app;
-module.exports.handler = serverless(app);
+export default app;
+export const handler = serverless(app);
