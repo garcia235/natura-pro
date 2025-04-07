@@ -7,7 +7,15 @@ await build({
   platform: "node",
   format: "esm",
   outdir: "dist",
-  external: ["fsevents", "lightningcss"],
+  external: [
+    "fsevents",
+    "lightningcss",
+    "@rollup/rollup-linux-x64-gnu",
+    "@rollup/rollup-linux-x64-musl"
+  ],
+  define: {
+    "process.env.NODE_ENV": '"production"',
+  },
   plugins: [
     alias({
       "@rollup/rollup-linux-x64-gnu": "./empty-rollup.js",
