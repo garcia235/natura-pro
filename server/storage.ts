@@ -1,10 +1,13 @@
-import { 
-  users, 
-  type User, 
-  type InsertUser, 
-  contactMessages, 
-  type ContactMessage, 
-  type InsertContactMessage 
+import { PrismaClient } from "@prisma/client";
+import {
+  type User,
+  type InsertUser,
+  type ContactMessage,
+  type InsertContactMessage,
+  type InsertProduct,
+  type InsertCategory,
+  type Product,
+  type Category,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -12,49 +15,49 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
+  createProduct(product: InsertProduct): Promise<Product>;
+  createCategory(category: InsertCategory): Promise<Category>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private contactMessages: Map<number, ContactMessage>;
-  userCurrentId: number;
-  messageCurrentId: number;
+const prisma = new PrismaClient();
 
-  constructor() {
-    this.users = new Map();
-    this.contactMessages = new Map();
-    this.userCurrentId = 1;
-    this.messageCurrentId = 1;
-  }
-
+export class PrismaStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const user = await prisma.user.findUnique({ where: { id } });
+    return user ?? undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const user = await prisma.user.findUnique({ where: { username } });
+    return user ?? undefined;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userCurrentId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async createUser(user: InsertUser): Promise<User> {
+    return prisma.user.create({ data: user });
   }
 
-  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const id = this.messageCurrentId++;
-    const now = new Date();
-    const message: ContactMessage = { 
-      ...insertMessage, 
-      id, 
-      createdAt: now 
-    };
-    this.contactMessages.set(id, message);
-    return message;
+  async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {
+    return prisma.contactMessage.create({ data: message });
+  }
+
+  async createProduct(product: InsertProduct): Promise<Product> {
+    return prisma.product.create({ data: product });
+  }
+  async createCategory(category: InsertCategory): Promise<Category> {
+    return prisma.category.create({ data: category });
+  }
+  async getProducts(): Promise<Product[]> {
+    return prisma.product.findMany();
+  }
+  async getCategories(): Promise<Category[]> {
+    return prisma.category.findMany();
+  }
+  async getCategoryById(id: number): Promise<Category | null> {
+    return prisma.category.findUnique({ where: { id } });
+  }
+  async getProductById(id: number): Promise<Product | null> {
+    return prisma.product.findUnique({ where: { id } });
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new PrismaStorage();
