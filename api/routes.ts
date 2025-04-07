@@ -5,7 +5,9 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { insertUserSchema, insertCategorySchema, insertProductSchema, insertContactMessageSchema } from "../shared/schema.js";
 
-import { Pool } from "pg";
+import pg from 'pg';
+const { Pool } = pg;
+
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
