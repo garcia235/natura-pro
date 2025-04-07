@@ -8,7 +8,7 @@ import {
   type InsertCategory,
   type Product,
   type Category,
-} from "../shared/schema";
+} from "../shared/schema.js";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
