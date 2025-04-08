@@ -2,10 +2,11 @@
     "version": 2,
     "installCommand": "pnpm install",
     "buildCommand": "pnpm run build",
+    "outputDirectory": "dist/public",
     "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "/api/index.ts"
-        }
+      {
+        "src": "/api/(.*)",
+        "dest": "/dist/api/index.js"
+      }
     ]
-}
+  }  
