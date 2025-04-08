@@ -9,18 +9,20 @@ import pg from 'pg';
 const { Pool } = pg;
 
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express): Promise<void> {
+
+  console.log("✅ Routes registered");
 
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-  });  
+  });
 
   app.post("/api/contact", async (req: Request, res: Response) => {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
       const result = await storage.createContactMessage(validatedData);
-      
+
       return res.status(201).json({
         message: "Thank you for your message! We'll get back to you soon.",
         data: result
@@ -28,13 +30,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       if (error instanceof ZodError) {
         const validationError = fromZodError(error);
-        return res.status(400).json({ 
-          message: "Validation error", 
+        return res.status(400).json({
+          message: "Validation error",
           errors: validationError.details
         });
       }
-      
-      return res.status(500).json({ 
+
+      return res.status(500).json({
         message: "An error occurred while submitting your message."
       });
     }
@@ -103,11 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json({ status: "ok", time: result.rows[0] });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ status: "error", message: error});
+      res.status(500).json({ status: "error", message: error });
     }
   });
-  
-
-  const httpServer = createServer(app);
-  return httpServer;
 }

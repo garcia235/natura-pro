@@ -1,4 +1,9 @@
-ignoredBuiltDependencies:
+packages:
+  - 'client'
+  - 'api'
+  - 'shared'
+  - 'prisma'
+ignoredBuildDependencies:
   - '@prisma/client'
   - '@prisma/engines'
   - bufferutil
