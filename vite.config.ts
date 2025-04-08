@@ -14,11 +14,13 @@ const getConfig = async () => {
 
   return defineConfig({
     plugins: [
-      isDev && react(),
+      react({
+        jsxRuntime: "automatic",
+      }),
       runtimeErrorOverlay(),
       themePlugin(),
       ...cartographer,
-    ].filter(Boolean),
+    ],
     optimizeDeps: {
       include: [],
       exclude: ["react-refresh"],
